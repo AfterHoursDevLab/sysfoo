@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+    
+    tools{
+         maven 'maven 3.9.15'
+    }
+    stages {
+        stage('Build') {
+            steps {
+               echo 'compile sysfoo app...'
+               sh 'mvn compile '
+            }
+          }
+          
+    stages {
+          stage('test') {
+              steps {
+                 echo 'Running unit test...'
+                sh 'mvn clean test'
+              }
+            }
+
+      stages {
+            stage('package') {
+                steps {
+                   echo 'packaging the app...'
+                   sh 'mvn package -DskipTests  '
+                }
+              }
+              
+      post {
+          always{
+          echo 'This pipeline is complate....'         
+        }
+    }
+}
